@@ -21,7 +21,7 @@ const jsLoaders = () => {
 
 module.exports = {
   context: path.resolve(__dirname, "src"),
-  mode: "development",
+  mode: process.env.NODE_ENV,
   entry: ["./index.tsx"],
   output: {
     filename: filename("js"),
@@ -31,7 +31,7 @@ module.exports = {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
     alias: {
       "@": path.resolve(__dirname, "src"),
-      "@design": path.resolve(__dirname, "src/design-components"),
+      "@design": path.resolve(__dirname, "src/design"),
     },
   },
   devtool: isDev ? "source-map" : false,

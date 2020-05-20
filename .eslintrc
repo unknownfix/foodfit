@@ -16,7 +16,8 @@
     "no-restricted-syntax": 0,
     "import/extensions": "off",
     "react/prop-types": [2, { "skipUndeclared": true }],
-    "@typescript-eslint/explicit-function-return-type": "off"
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-empty-interface": "off"
   },
   "settings": {
     "react": {
@@ -24,6 +25,9 @@
     },
     "import/resolver": {
       "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      },
+      "webpack": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     }
