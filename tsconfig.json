@@ -12,10 +12,13 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "downlevelIteration": true,
+    "strictNullChecks": false,
     //"noEmit": true,
     "jsx": "react",
     "baseUrl": "./",
     "paths": {
+      "styled-components": ["./app/styled-components.ts"],
       "@*": ["src/*"]
     }
   },

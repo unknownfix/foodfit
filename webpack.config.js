@@ -30,8 +30,9 @@ module.exports = {
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
     alias: {
-      "@": path.resolve(__dirname, "src"),
       "@design": path.resolve(__dirname, "src/design"),
+      "@shared": path.resolve(__dirname, "src/shared"),
+      "@utils": path.resolve(__dirname, "src/utils"),
     },
   },
   devtool: isDev ? "source-map" : false,
@@ -39,6 +40,13 @@ module.exports = {
     port: 3000,
     hot: isDev,
     historyApiFallback: true,
+    proxy: {
+      "/api": {
+        target: "https://europe-west3-foodfit-b3fe3.cloudfunctions.net",
+        secure: false,
+        changeOrigin: true,
+      },
+    },
   },
   plugins: [
     new CleanWebpackPlugin(),
