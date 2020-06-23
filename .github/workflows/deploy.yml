@@ -4,13 +4,37 @@ on:
     branches:
       - develop
 jobs:
-  deploy_to_firebase_hosting:
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v2
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Install Dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: dist
+          path: dist
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Install Functions Dependencies
+        run: npm install && cd functions && npm install && cd -
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: dist
+          path: dist
       - name: Deploy to Firebase
-        uses: w9jds/firebase-action@v1.5.0
+        uses: w9jds/firebase-action@master
         with:
           args: deploy
         env:
