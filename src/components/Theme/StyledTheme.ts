@@ -37,7 +37,7 @@ body {
   box-sizing: border-box;
   background-color: ${(props) => props.theme.bgColor};
   min-height: 100vh;
-  color: ${(props) => props.theme.colorPrimary};
+  color: ${(props) => props.theme.colorSecondary};
 }
 
 ::selection {

@@ -14,12 +14,15 @@ export default styled.section`
 
       & > h1 {
         font-size: 3.3rem;
-        color: black;
+        color: ${(props) => props.theme.colorPrimary};
       }
 
       & > span {
         display: block;
-        margin-top: 0.5rem;
+      }
+
+      & a {
+        color: ${(props) => props.theme.colorPrimary};
       }
     }
 

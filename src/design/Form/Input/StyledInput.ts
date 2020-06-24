@@ -10,7 +10,7 @@ export default styled.div`
     height: 3.5rem;
     font-size: 1.4rem;
     font-family: inherit;
-    color: inherit;
+    color: ${(props) => props.theme.colorPrimary};
     padding: 1.5rem 2rem;
     border-radius: 2px;
     border: 1px solid #d9d9d9;
@@ -27,7 +27,7 @@ export default styled.div`
     }
 
     &::placeholder {
-        color: #bfbfbf;
+        color: ${(props) => props.theme.colorTertiary};
     }
   }
 
