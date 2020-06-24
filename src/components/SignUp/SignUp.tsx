@@ -49,9 +49,9 @@ const SignUp: React.FC<ToggleProps> = ({ isToggled, setToggled }) => {
     <StyledSignUp className={`signup ${isToggled ? "active" : "inactive"}`}>
       <div className="component">
         <div className="header">
-          <h1>Sign Up</h1>
+          <h1 className="mb6">Sign Up</h1>
           <h2>FoodFit</h2>
-          <span>Calories + Calc + Diary</span>
+          <span className="mb6">Calories + Calc + Diary</span>
           <a href="#" onClick={togglePage}>
             Log In
           </a>

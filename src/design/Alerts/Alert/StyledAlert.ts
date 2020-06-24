@@ -8,7 +8,7 @@ const StyledAlert = styled.div`
   border-style: solid;
   border-color: rgb(255, 204, 199);
   border-image: initial;
-  color: ${(props) => props.theme.colorThirty};
+  color: ${(props) => props.theme.colorTertiary};
   font-size: 1.4rem;
   line-height: 1.5715;
   padding: 0.8rem 1.6rem 0.8rem;

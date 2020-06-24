@@ -3,13 +3,14 @@ import { ThemeProvider } from "styled-components";
 import ThemeGlobalStyle from "./StyledTheme";
 
 export const theme = {
-  colorPrimary: "rgba(0,0,0,.65)",
-  colorSecondary: "rgba(0,0,0,.45)",
-  colorThirty: "rgba(0,0,0,.85)",
+  colorPrimary: "#0B285F", // dark blue
+  colorSecondary: "#65A6F2", // white blue
+  colorTertiary: "#bfbfbf", // gray
   colorRed: "rgb(255, 77, 79)",
   colorBlue: "#1890ff",
   colorBlueRgb: "24, 144, 255",
-  bgColor: "#f0f2f5",
+  bgColor: "#fff",
+  colorButton: {},
   fontPrimary: ["Open Sans", "sans-serif"],
 
   // RESPONSIVE BREAKPOINTS
