@@ -11,7 +11,7 @@ export interface Reducer<P extends object, T extends ActionInterface> {
 }
 
 export interface StoreReturn {
-  getState: any;
+  getState: (name?: string) => any;
   subscribe?: (listener: Function) => { unsubscribe: () => void };
   dispatch: (action: ActionInterface) => ActionInterface | never | boolean;
 }

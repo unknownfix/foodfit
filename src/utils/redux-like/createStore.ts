@@ -3,8 +3,12 @@ import { ActionInterface, Store, CreateStore } from "./types";
 
 const store: Store = (reducer: Reducer<any, ActionInterface>) => {
   let listeners: Function[] = [];
-  let state = {};
-  const getState = (): any => state;
+  let state: { [key: string]: any } = {};
+
+  const getState = (name: string = undefined): any =>
+    name ? state[name] : state;
+
+  // TODO subscribe only for choosed reducer
   const subscribe = (listener: Function) => {
     const lastenerIndex = listeners.length;
     listeners = [...listeners, listener];
