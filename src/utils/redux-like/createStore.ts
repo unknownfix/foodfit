@@ -1,7 +1,7 @@
 import { Reducer } from "@utils/redux-like";
-import { ActionInterface } from "./types";
+import { ActionInterface, Store, CreateStore } from "./types";
 
-const Store = (reducer: Reducer<any, ActionInterface>) => {
+const store: Store = (reducer: Reducer<any, ActionInterface>) => {
   let listeners: Function[] = [];
   let state = {};
   const getState = (): any => state;
@@ -19,9 +19,9 @@ const Store = (reducer: Reducer<any, ActionInterface>) => {
     };
   };
 
-  const dispatch = (action: ActionInterface): ActionInterface | never => {
-    if (!action || action.type === undefined)
-      throw new Error("Action type is not present");
+  const dispatch = (action: ActionInterface) => {
+    if (!action || action.type === undefined) return false;
+    // throw new Error("Action type is not present");
     state = reducer(state, action);
     listeners.forEach((listener) => listener());
     return action;
@@ -30,8 +30,13 @@ const Store = (reducer: Reducer<any, ActionInterface>) => {
   return { getState, subscribe, dispatch };
 };
 
-const createStore = (reducer: Reducer<any, ActionInterface>) => {
-  return Store(reducer);
+// TODO undefined
+const createStore: CreateStore = (reducer, enhancer = undefined) => {
+  if (enhancer !== undefined && typeof enhancer === "function") {
+    return enhancer(createStore)(reducer);
+  }
+
+  return store(reducer);
 };
 
 export default createStore;

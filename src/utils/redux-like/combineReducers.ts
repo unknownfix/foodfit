@@ -7,8 +7,8 @@ interface CombineReducers {
 const combineReducers = (reducers: CombineReducers) => {
   const stateNames = Object.keys(reducers);
 
-  return (state: any, action: any) =>
-    stateNames.reduce((acc: any, curr: any) => {
+  return (state: any, action: ActionInterface) =>
+    stateNames.reduce((acc: object, curr: string) => {
       return {
         ...acc,
         [curr]: reducers[curr](state[curr], action),
