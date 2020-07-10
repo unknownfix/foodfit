@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, PropsWithChildren } from "react";
+import React, { useContext, useReducer } from "react";
 import { Context } from "./Provider";
 import { StoreReturn } from "../types";
 
@@ -23,7 +23,7 @@ const withConnect = <T,>(
   WrappedComponent: React.ComponentType<T>,
 ): React.FC<ShadowInjected<T, Props>> => (props: ShadowInjected<T, Props>) => {
   const store = useContext(Context);
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [, dispatch] = useReducer(reducer, initialState);
 
   // TODO subscribe only for choosed reducer
   store.subscribe(() => dispatch({ type: "@store/UPDATE" }));
