@@ -17,6 +17,7 @@
     "import/extensions": "off",
     "react/prop-types": [2, { "skipUndeclared": true }],
     "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "no-console": "off"
   },
   "settings": {
