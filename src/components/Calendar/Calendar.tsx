@@ -1,5 +1,5 @@
 import React from "react";
-import ReactCalendar from "react-calendar";
+import ReactCalendar, { OnChangeDateCallback } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useConnect } from "@utils/redux-like";
 import { setDate } from "@stores/meal/mealAction";
@@ -14,8 +14,8 @@ const Calendar: React.FC<Props> = ({ active, calendarShown }) => {
   const [state, dispatch] = useConnect();
   const mealDate = state?.meal?.date || new Date();
 
-  const onChange = (val: Date) => {
-    dispatch(setDate(val));
+  const onChange: OnChangeDateCallback = (val) => {
+    dispatch(setDate(val as Date));
     calendarShown();
   };
 
