@@ -35,3 +35,73 @@ exports.validateSignUpData = (data) => {
     valid: Object.keys(errors).length === 0 ? true : false,
   };
 };
+
+exports.validateSettingsData = (data) => {
+  let errors = {};
+
+  if (typeof data.activity !== "number") {
+    errors.activity = "Must be number";
+  }
+  if (typeof data.gender !== "number") {
+    errors.gender = "Must be number";
+  }
+  if (typeof data.goal !== "number") {
+    errors.goal = "Must be number";
+  }
+  if (typeof data.age !== "number") {
+    errors.goal = "Must be number";
+  }
+  if (typeof data.height !== "number") {
+    errors.goal = "Must be number";
+  }
+  if (typeof data.weight !== "number") {
+    errors.goal = "Must be number";
+  }
+
+  return {
+    errors,
+    valid: Object.keys(errors).length === 0 ? true : false,
+  };
+};
+
+exports.validateUpdateProduct = (data, type = "product") => {
+  let errors = {};
+
+  if (isEmpty(data.name)) errors.name = "Must not be empty";
+
+  if (typeof data.protein !== "number") {
+    errors.activity = "Must be number";
+  }
+  if (typeof data.fat !== "number") {
+    errors.gender = "Must be number";
+  }
+  if (typeof data.carbs !== "number") {
+    errors.goal = "Must be number";
+  }
+
+  if (type === "meal") {
+    if (typeof data.weight !== "number") {
+      errors.weight = "Must be number";
+    }
+  }
+
+  return {
+    errors,
+    valid: Object.keys(errors).length === 0 ? true : false,
+  };
+};
+
+exports.validateUpdateMeal = (data) => {
+  let errors = {};
+
+  if (typeof data.weight !== "number") {
+    errors.weight = "Must be number";
+  }
+
+  return {
+    errors,
+    valid: Object.keys(errors).length === 0 ? true : false,
+  };
+};
+
+exports.validateSettingsData;
