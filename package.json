@@ -11,6 +11,7 @@
     "deploy functions": "firebase deploy --only functions"
   },
   "dependencies": {
+    "@types/react-calendar": "^3.1.0",
     "axios": "^0.19.2",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.0.0",
