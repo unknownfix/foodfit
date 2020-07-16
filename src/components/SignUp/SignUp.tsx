@@ -1,11 +1,14 @@
-import React, { useState, useRef } from "react";
-import axios from "axios";
-import { useHistory } from "react-router-dom";
-import Input from "@design/Form/Input/Input";
-import Button from "@design/Form/Button/Button";
-import Form, { ErrorsInterface } from "@design/Form/Form";
-import LoaderRing from "@design/Loaders/Ring/Ring";
-import Alert from "@design/Alerts/Alert/Alert";
+import React, { useRef } from "react";
+import { useConnect } from "@utils/redux-like";
+import { singup } from "@stores/user/userAction";
+import {
+  Input,
+  Button,
+  Form,
+  ErrorsInterface,
+  LoaderRing,
+  Alert,
+} from "@design";
 import { ToggleProps } from "@shared/withToggle";
 import StyledSignUp from "./StyledSignUp";
 
@@ -15,34 +18,35 @@ interface Errors extends ErrorsInterface {
   password?: string;
 }
 
-const SignUp: React.FC<ToggleProps> = ({ isToggled, setToggled }) => {
-  const [inProgress, setInProgress] = useState<boolean>(false);
-  const [errors, setErrors] = useState<Errors>({});
+interface Props {
+  changePage: () => void;
+}
+
+const SignUp: React.FC<Props & ToggleProps> = ({
+  isToggled,
+  setToggled,
+  changePage,
+}) => {
   const emailRef = useRef<HTMLInputElement>();
   const pwdRef = useRef<HTMLInputElement>();
 
-  const history = useHistory();
+  const [state, dispatch] = useConnect("signup");
+
+  const errors: Errors = state?.user?.signupErrors || {};
+  const inProgress = state?.user?.signupFetching || false;
 
   const togglePage = () => setToggled(!isToggled);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setInProgress(true);
     const userData = {
       email: emailRef.current.value,
       password: pwdRef.current.value,
     };
-    axios
-      .post("/api/signup", userData)
-      .then((response) => {
-        setInProgress(false);
-        localStorage.setItem("AuthToken", `Bearer ${response.data.token}`);
-        history.push("/");
-      })
-      .catch((error) => {
-        setInProgress(false);
-        setErrors(error.response.data);
-      });
+
+    dispatch(singup(userData)).then((success: boolean) => {
+      if (success) changePage();
+    });
   };
 
   return (
@@ -58,7 +62,7 @@ const SignUp: React.FC<ToggleProps> = ({ isToggled, setToggled }) => {
         </div>
         <div></div>
         <div className="form-container">
-          {errors.common && <Alert message={errors.common} />}
+          {errors?.common && <Alert message={errors.common} />}
           <div>
             <Form onFinish={handleSubmit} errors={errors}>
               <Input
@@ -66,6 +70,7 @@ const SignUp: React.FC<ToggleProps> = ({ isToggled, setToggled }) => {
                 type="email"
                 name="email"
                 placeholder="email"
+                value=""
                 required={true}
                 requiredMessage="Please enter correct email"
               />
@@ -74,6 +79,7 @@ const SignUp: React.FC<ToggleProps> = ({ isToggled, setToggled }) => {
                 type="password"
                 name="password"
                 placeholder="password"
+                value=""
                 required={true}
               />
               <Button

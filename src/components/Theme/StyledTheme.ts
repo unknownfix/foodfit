@@ -29,13 +29,13 @@ html {
 body {
   font-size: 1.4rem;
   font-family: ${(props) => props.theme.fontPrimary.join(",")};
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
   box-sizing: border-box;
-  background-color: ${(props) => props.theme.bgColor};
+  background-color: #e8ecf0;
   min-height: 100vh;
   color: ${(props) => props.theme.colorSecondary};
 }
@@ -43,5 +43,15 @@ body {
 ::selection {
   color: #fff;
   background: ${(props) => props.theme.colorBlue};
+}
+
+h1 {
+  font-size: 3.6rem;
+  color: ${(props) => props.theme.colorPrimary};
+}
+
+h2 {
+  font-size: 2.4rem;
+  color: ${(props) => props.theme.colorPrimary};
 }
 `;

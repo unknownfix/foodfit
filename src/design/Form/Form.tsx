@@ -6,6 +6,10 @@ export interface ErrorsInterface {
   [key: string]: string;
 }
 
+interface Debaunce {
+  [key: string]: ReturnType<typeof setTimeout>;
+}
+
 interface Typing {
   [key: string]: boolean;
 }
@@ -14,39 +18,42 @@ interface Context {
   hasError: (field: string) => boolean;
   getError: (field: string) => string;
   isTyping: (field: string) => boolean;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => void;
 }
 
 interface Props {
   onFinish: (e: React.FormEvent<HTMLFormElement>) => void;
   errors: ErrorsInterface;
+  ref?: React.MutableRefObject<HTMLFormElement>;
 }
 
 export const FormContext = React.createContext<Context | null>(null);
 
-const Form: React.FC<PropsWithChildren<Props>> = ({
-  children,
-  onFinish,
-  errors: formErrors,
-}) => {
+const Form: React.ForwardRefRenderFunction<
+  HTMLFormElement,
+  PropsWithChildren<Props>
+> = ({ children, onFinish, errors: formErrors }, ref) => {
   const [errors, setErrors] = useState<ErrorsInterface>({});
   const [typing, setTyping] = useState<Typing>({});
-  const [debounced, setDebounced] = useState<ReturnType<typeof setTimeout>>(
-    null,
-  );
+  const [debounced, setDebounced] = useState<Debaunce>({});
 
   useEffect(() => {
-    setErrors(formErrors);
+    setErrors({ ...formErrors });
   }, [formErrors]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ): void => {
     const input = event.target;
     const inputName = input.getAttribute("name");
 
-    if (debounced) clearTimeout(debounced);
+    if (debounced[inputName]) clearTimeout(debounced[inputName]);
     if (!typing[inputName]) setTyping({ ...typing, [inputName]: true });
-    setDebounced(
-      setTimeout(() => {
+    setDebounced({
+      ...debounced,
+      [inputName]: setTimeout(() => {
         setErrors({
           ...errors,
           [inputName]: input.validationMessage
@@ -54,8 +61,8 @@ const Form: React.FC<PropsWithChildren<Props>> = ({
             : "",
         });
         setTyping({ ...typing, [inputName]: false });
-      }, 700),
-    );
+      }, 500),
+    });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -79,6 +86,7 @@ const Form: React.FC<PropsWithChildren<Props>> = ({
           : "";
       }
     }
+    setTyping({});
     setErrors(errorMessages);
 
     if (isValid) {
@@ -94,7 +102,7 @@ const Form: React.FC<PropsWithChildren<Props>> = ({
   const isTyping: Context["isTyping"] = (field) => typing[field];
 
   return (
-    <form onSubmit={handleSubmit} noValidate>
+    <form onSubmit={handleSubmit} ref={ref} noValidate>
       <FormContext.Provider
         value={{ hasError, getError, isTyping, handleChange }}
       >
@@ -103,4 +111,6 @@ const Form: React.FC<PropsWithChildren<Props>> = ({
     </form>
   );
 };
-export default Form;
+export default React.forwardRef<HTMLFormElement, PropsWithChildren<Props>>(
+  Form,
+);

@@ -1,11 +1,14 @@
-import React, { useState, useRef } from "react";
-import axios from "axios";
-import { useHistory } from "react-router-dom";
-import Input from "@design/Form/Input/Input";
-import Button from "@design/Form/Button/Button";
-import Form, { ErrorsInterface } from "@design/Form/Form";
-import LoaderRing from "@design/Loaders/Ring/Ring";
-import Alert from "@design/Alerts/Alert/Alert";
+import React, { useRef } from "react";
+import { useConnect } from "@utils/redux-like";
+import { login } from "@stores/user/userAction";
+import {
+  Input,
+  Button,
+  Form,
+  ErrorsInterface,
+  LoaderRing,
+  Alert,
+} from "@design";
 import { ToggleProps } from "@shared/withToggle";
 import StyledLogin from "./StyledLogin";
 
@@ -15,33 +18,35 @@ interface Errors extends ErrorsInterface {
   password?: string;
 }
 
-const Login: React.FC<ToggleProps> = ({ isToggled, setToggled }) => {
-  const [inProgress, setInProgress] = useState<boolean>(false);
-  const [errors, setErrors] = useState<Errors>({});
+interface Props {
+  changePage: () => void;
+}
+
+const Login: React.FC<Props & ToggleProps> = ({
+  isToggled,
+  setToggled,
+  changePage,
+}) => {
   const emailRef = useRef<HTMLInputElement>();
   const pwdRef = useRef<HTMLInputElement>();
 
-  const history = useHistory();
+  const [state, dispatch] = useConnect("login");
+
+  const errors: Errors = state?.user?.loginErrors || {};
+  const inProgress = state?.user?.loginFetching || false;
 
   const togglePage = () => setToggled(!isToggled);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setInProgress(true);
     const userData = {
       email: emailRef.current.value,
       password: pwdRef.current.value,
     };
-    axios
-      .post("/api/login", userData)
-      .then((response) => {
-        localStorage.setItem("AuthToken", `Bearer ${response.data.token}`);
-        history.push("/");
-      })
-      .catch((error) => {
-        setErrors(error.response.data);
-      })
-      .finally(() => setInProgress(false));
+
+    dispatch(login(userData)).then((success: boolean) => {
+      if (success) changePage();
+    });
   };
 
   return (
@@ -64,6 +69,7 @@ const Login: React.FC<ToggleProps> = ({ isToggled, setToggled }) => {
                 type="email"
                 name="email"
                 placeholder="email"
+                value=""
                 required={true}
                 requiredMessage="Please enter correct email"
               />
@@ -71,6 +77,7 @@ const Login: React.FC<ToggleProps> = ({ isToggled, setToggled }) => {
                 ref={pwdRef}
                 type="password"
                 name="password"
+                value=""
                 placeholder="password"
                 required={true}
               />
