@@ -3,15 +3,18 @@ import { ThemeProvider } from "styled-components";
 import ThemeGlobalStyle from "./StyledTheme";
 
 export const theme = {
+  menuHeight: "6rem",
   colorPrimary: "#0B285F", // dark blue
   colorSecondary: "#65A6F2", // white blue
-  colorTertiary: "#bfbfbf", // gray
+  colorTertiary: "#9FB2BC", // gray
+  colorGray: "#F5F7F9",
+  colorGreen: "#6FE2B2",
   colorRed: "rgb(255, 77, 79)",
   colorBlue: "#1890ff",
   colorBlueRgb: "24, 144, 255",
   bgColor: "#fff",
   colorButton: {},
-  fontPrimary: ["Open Sans", "sans-serif"],
+  fontPrimary: ["Montserrat", "sans-serif"],
 
   // RESPONSIVE BREAKPOINTS
   bpHuge: "112.5em", // 1800px

@@ -1,7 +1,6 @@
-import React, { useContext, PropsWithRef, PropsWithChildren } from "react";
+import React, { PropsWithChildren } from "react";
 import randomId from "@utils/random-id";
 import StyledButton from "./StyledButton";
-import { FormContext } from "../Form";
 
 interface Props {
   name: string;
@@ -17,6 +16,7 @@ const Button: React.FC<PropsWithChildren<Props>> = ({
   value,
   className = "",
   disabled = false,
+  handleChange,
 }) => {
   return (
     <StyledButton
@@ -25,6 +25,7 @@ const Button: React.FC<PropsWithChildren<Props>> = ({
       name={name}
       value={value}
       disabled={disabled}
+      onClick={handleChange}
     >
       {children}
     </StyledButton>

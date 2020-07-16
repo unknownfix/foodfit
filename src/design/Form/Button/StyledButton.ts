@@ -6,6 +6,7 @@ export default styled.button`
   height: 3.5rem;
   font-size: 1.4rem;
   font-family: inherit;
+  font-weight: 500;
   color: inherit;
   padding: 1.5rem 2rem;
   border-radius: 2px;

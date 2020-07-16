@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import randomId from "@utils/random-id";
-import StyledInputGroup from "./StyledInput";
+import StyledSelectGroup from "./StyledSelect";
 import { FormContext } from "../Form";
 
+interface Item {
+  name: string | number;
+  value: string | number;
+}
+
 interface Props {
-  type: "email" | "text" | "number" | "password" | "submit";
   name: string;
-  ref?: React.MutableRefObject<HTMLInputElement>;
+  items: Item[];
+  ref?: React.MutableRefObject<HTMLSelectElement>;
   value?: string | number;
   defaultValue?: string | number;
   placeholder?: string;
@@ -16,10 +21,10 @@ interface Props {
   handleChange?: (e: React.FormEvent<EventTarget>) => void;
 }
 
-const Input: React.ForwardRefRenderFunction<HTMLInputElement, Props> = (
+const Select: React.ForwardRefRenderFunction<HTMLSelectElement, Props> = (
   {
-    type,
     name,
+    items,
     value,
     defaultValue,
     placeholder,
@@ -38,24 +43,25 @@ const Input: React.ForwardRefRenderFunction<HTMLInputElement, Props> = (
     setState(value);
   }, [value]);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target;
-    setState(input.value);
+  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const select = e.target;
+    select.classList.remove("empty");
+    setState(select.value);
   };
 
-  let inputProps = {};
-  if (value !== undefined) inputProps = { ...inputProps, value: state };
+  let selectProps = {};
+  if (value) selectProps = { ...selectProps, value: state };
 
   return (
-    <StyledInputGroup
+    <StyledSelectGroup
       className={`${className} ${
         hasError(name) && !isTyping(name) ? "error" : ""
       } ${isTyping(name) ? "typing" : ""}`}
     >
-      <input
-        {...inputProps}
+      <select
+        {...selectProps}
+        className={!value ? "empty" : ""}
         ref={ref}
-        type={type}
         id={name + randomId()}
         name={name}
         defaultValue={defaultValue}
@@ -66,11 +72,20 @@ const Input: React.ForwardRefRenderFunction<HTMLInputElement, Props> = (
           handleChange(e);
           onChange(e);
         }}
-      />
+      >
+        <option value="" disabled>
+          {placeholder}
+        </option>
+        {items.map((val, index) => (
+          <option key={index} value={val.value}>
+            {val.name}
+          </option>
+        ))}
+      </select>
       {placeholder && <label htmlFor={name}>{placeholder}</label>}
-      {type !== "submit" && <span>{getError(name)}</span>}
-    </StyledInputGroup>
+      {<span>{getError(name)}</span>}
+    </StyledSelectGroup>
   );
 };
 
-export default React.forwardRef<HTMLInputElement, Props>(Input);
+export default React.forwardRef<HTMLSelectElement, Props>(Select);

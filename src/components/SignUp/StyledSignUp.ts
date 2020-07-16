@@ -13,11 +13,6 @@ export default styled.section`
     & > .header {
       text-align: center;
 
-      & > h1 {
-        font-size: 3.3rem;
-        color: ${(props) => props.theme.colorPrimary};
-      }
-
       & > span {
         display: block;
       }

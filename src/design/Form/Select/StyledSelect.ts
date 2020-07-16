@@ -4,7 +4,7 @@ export default styled.div`
   position: relative;
   margin-bottom: 3rem;
 
-  & input {
+  & select {
     display:block;
     width: 100%;
     height: 3.5rem;
@@ -12,10 +12,14 @@ export default styled.div`
     font-weight: 500;
     font-family: inherit;
     color: ${(props) => props.theme.colorPrimary};
-    padding: 1.5rem 2rem;
+    padding: 0.7rem 1.6rem;
     border-radius: 2px;
     border: 1px solid #d9d9d9;
     transition: all 0.3s;
+
+    &.empty {
+      color: rgb(117, 117, 117);
+    }
 
     &:focus {
         outline: none;
@@ -23,22 +27,15 @@ export default styled.div`
         border-color: ${(props) => props.theme.colorBlue}};
     }
 
-    &:focus:invalid {
-        //border-bottom: 3px solid $color-secondary-dark;
-    }
-
-    &::placeholder {
-        color: ${(props) => props.theme.colorTertiary};
-        font-weight: 500;
-    font-family: inherit;
+    & option[disabled] {
+      color: red;
     }
   }
 
-  & input[type="submit"] {
-    color: white;
-    border: 1px solid ${(props) => props.theme.colorBlue};
-    background-color: ${(props) => props.theme.colorBlue};
-    padding: 0;
+  & select.empty + label {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-2.5rem);
   }
 
   & label {
@@ -61,25 +58,13 @@ export default styled.div`
     transition: all .3s;
   }
 
-  & input:placeholder-shown + label {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-2.5rem);
-  }
-
   &.error {
-    & input:placeholder-shown {
+    & select {
       border: 1px solid #ff4d4f;
-    }
-    label {
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-2.5rem);
     }
     span {
       visibility: visible;
       opacity: 1;
-      // transform: translateY(-100%);
     }
   }
 
@@ -91,7 +76,4 @@ export default styled.div`
     }
   }
 
-  &.typing {
-    
-  }
 `;
