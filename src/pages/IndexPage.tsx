@@ -1,15 +1,28 @@
-import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import authMiddleware from "@utils/authMiddleware";
+import React, { useState } from "react";
+import styled from "styled-components";
+import Calendar from "@components/Calendar/Calendar";
+import DailyBoard from "@components/DailyBoard/DailyBoard";
 
-const Index = () => {
-  const history = useHistory();
+const StyledIndex = styled.div`
+  position: relative;
+  display: grid;
+  overflow-y: scroll;
+  height: ${(props) => `calc(100vh - ${props.theme.menuHeight})`};
+`;
 
-  useEffect(() => {
-    authMiddleware(history);
-  });
+const Index: React.FC = () => {
+  const [calendarActive, setCalendarActive] = useState<boolean>(false);
 
-  return <h1>Index</h1>;
+  const calendarShown = () => {
+    setCalendarActive(!calendarActive);
+  };
+
+  return (
+    <StyledIndex>
+      <DailyBoard circle={{ lines: 57 }} calendarShown={calendarShown} />
+      <Calendar active={calendarActive} calendarShown={calendarShown} />
+    </StyledIndex>
+  );
 };
 
 export default Index;
