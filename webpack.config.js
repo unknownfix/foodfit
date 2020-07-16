@@ -36,6 +36,8 @@ module.exports = {
       "@design": path.resolve(__dirname, "src/design"),
       "@shared": path.resolve(__dirname, "src/shared"),
       "@utils": path.resolve(__dirname, "src/utils"),
+      "@middlewares": path.resolve(__dirname, "src/middlewares"),
+      "@stores": path.resolve(__dirname, "src/stores"),
     },
   },
   devtool: isDev ? "source-map" : false,
@@ -74,6 +76,10 @@ module.exports = {
           from: path.resolve(__dirname, "public/manifest.json"),
           to: path.resolve(__dirname, "dist"),
         },
+        {
+          from: path.resolve(__dirname, "public/icons"),
+          to: path.resolve(__dirname, "dist/icons"),
+        },
       ],
     }),
     new MiniCssExtractPlugin({
@@ -83,7 +89,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.(s[ac]ss|css)$/i,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,

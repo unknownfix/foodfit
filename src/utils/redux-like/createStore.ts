@@ -4,25 +4,28 @@ import { ActionInterface, Store, CreateStore } from "./types";
 const store: Store = (reducer: Reducer<any, ActionInterface>) => {
   let listeners: Function[] = [];
   let state: { [key: string]: any } = {};
+  state = reducer(state, { type: "init" });
 
   const getState = (name: string = undefined): any =>
     name ? state[name] : state;
 
   // TODO subscribe only for choosed reducer
   const subscribe = (listener: Function) => {
-    const lastenerIndex = listeners.length;
+    const fn = listener;
     listeners = [...listeners, listener];
     let isSubscribe = true;
 
     return {
       unsubscribe: () => {
         if (!isSubscribe) return;
-        listeners.splice(lastenerIndex, 1);
+        const filterListeners = listeners.filter((val) => val !== fn);
+        listeners = [...filterListeners];
         isSubscribe = false;
       },
     };
   };
 
+  // TODO create types for dispatch
   const dispatch = (action: ActionInterface) => {
     if (!action || action.type === undefined) return false;
     // throw new Error("Action type is not present");
