@@ -30,7 +30,7 @@ const SignUp: React.FC<Props & ToggleProps> = ({
   const emailRef = useRef<HTMLInputElement>();
   const pwdRef = useRef<HTMLInputElement>();
 
-  const [state, dispatch] = useConnect("signup");
+  const [state, dispatch] = useConnect();
 
   const errors: Errors = state?.user?.signupErrors || {};
   const inProgress = state?.user?.signupFetching || false;

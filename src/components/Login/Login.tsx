@@ -30,7 +30,7 @@ const Login: React.FC<Props & ToggleProps> = ({
   const emailRef = useRef<HTMLInputElement>();
   const pwdRef = useRef<HTMLInputElement>();
 
-  const [state, dispatch] = useConnect("login");
+  const [state, dispatch] = useConnect();
 
   const errors: Errors = state?.user?.loginErrors || {};
   const inProgress = state?.user?.loginFetching || false;
