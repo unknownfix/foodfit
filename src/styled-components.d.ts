@@ -1,5 +1,5 @@
 import "styled-components";
-import { theme } from "./src/components/Theme/Theme";
+import { theme } from "./components/Theme/Theme";
 
 type MainTheme = typeof theme;
 

@@ -22,5 +22,5 @@
       "@*": ["src/*"]
     }
   },
-  "include": ["styled-components.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": ["src/styled-components.d.ts", "**/*.ts", "**/*.tsx"]
 }
