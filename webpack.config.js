@@ -47,7 +47,7 @@ module.exports = {
     historyApiFallback: true,
     proxy: {
       "/api": {
-        target: "https://europe-west3-foodfit-b3fe3.cloudfunctions.net",
+        target: "https://us-central1-foodfit-b3fe3.cloudfunctions.net/api",
         secure: false,
         changeOrigin: true,
       },
