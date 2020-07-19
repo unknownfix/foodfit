@@ -18,7 +18,7 @@ const StyledLayout = styled.div`
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: max-content 1fr;
-    overflow-y: scroll;
+    overflow-y: hidden;
     height: ${(props) => `calc(100vh - ${props.theme.menuHeight})`};
   }
 `;

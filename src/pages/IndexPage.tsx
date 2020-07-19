@@ -6,7 +6,7 @@ import DailyBoard from "@components/DailyBoard/DailyBoard";
 const StyledIndex = styled.div`
   position: relative;
   display: grid;
-  overflow-y: scroll;
+  overflow-y: auto;
   height: ${(props) => `calc(100vh - ${props.theme.menuHeight})`};
 `;
 
