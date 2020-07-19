@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { useConnect } from "@utils/redux-like";
-import { Button, Modal, Input, Form, LoaderRing } from "@design";
+import { Button, Modal, Input, Form, LoaderRing, ContentLoader } from "@design";
 import {
   setDate,
   getMeals,
@@ -28,6 +28,7 @@ interface Nutritions {
 
 const DailyBoard: React.FC<Props> = ({ circle, calendarShown }) => {
   const [itemId, setItemId] = useState<string>("");
+  const [isContentLoading, setIsContentLoading] = useState<boolean>(true);
   const nutritionsState: Nutritions = { protein: 0, fat: 0, carbs: 0, cal: 0 };
   const [currentNutritions, setCurrentNutritions] = useState<Nutritions>(
     nutritionsState,
@@ -45,7 +46,8 @@ const DailyBoard: React.FC<Props> = ({ circle, calendarShown }) => {
   useEffect(() => {
     if (dispatch) {
       const date = moment(mealDate).format("YYYY-MM-DD");
-      dispatch(getMeals(date));
+      setIsContentLoading(true);
+      dispatch(getMeals(date)).then(() => setIsContentLoading(false));
     }
   }, [dispatch, mealDate]);
 
@@ -184,45 +186,73 @@ const DailyBoard: React.FC<Props> = ({ circle, calendarShown }) => {
               <div key={i + 1} className={`line line-${i + 1}`}></div>
             ))}
           </div>
+
           <div className="total-cal">
-            <span className="current">{currentNutritions.cal}</span>
-            <span className="need">of {needNutritions.cal} kcal</span>
+            {isContentLoading && (
+              <>
+                <span className="current">&mdash;</span>
+                <span className="need">&mdash; &mdash; &mdash;</span>
+              </>
+            )}
+            {!isContentLoading && (
+              <>
+                <span className="current">{currentNutritions.cal}</span>
+                <span className="need">of {needNutritions.cal} kcal</span>
+              </>
+            )}
           </div>
         </div>
         <div className="cal-table">
           <div className="item">
-            <span className="weight">
-              {currentNutritions.protein}&frasl;{needNutritions.protein}
-            </span>
+            {isContentLoading && (
+              <span className="weight">&ndash; &frasl; &ndash;</span>
+            )}
+            {!isContentLoading && (
+              <span className="weight">
+                {currentNutritions.protein}&frasl;{needNutritions.protein}
+              </span>
+            )}
             <span className="name">Proteins</span>
           </div>
           <div className="item">
-            <span className="weight">
-              {currentNutritions.fat}&frasl;{needNutritions.fat}
-            </span>
+            {isContentLoading && (
+              <span className="weight">&ndash; &frasl; &ndash;</span>
+            )}
+            {!isContentLoading && (
+              <span className="weight">
+                {currentNutritions.fat}&frasl;{needNutritions.fat}
+              </span>
+            )}
             <span className="name">Fat</span>
           </div>
           <div className="item">
-            <span className="weight">
-              {currentNutritions.carbs}&frasl;{needNutritions.carbs}
-            </span>
+            {isContentLoading && (
+              <span className="weight">&ndash; &frasl; &ndash;</span>
+            )}
+            {!isContentLoading && (
+              <span className="weight">
+                {currentNutritions.carbs}&frasl;{needNutritions.carbs}
+              </span>
+            )}
             <span className="name">Carbs</span>
           </div>
         </div>
       </div>
       <div className="products">
-        {(!mealItems || mealItems.length === 0) && (
-          <h2 className="empty">No meal today?</h2>
-        )}
-        {mealItems &&
-          mealItems.map((val) => (
-            <Product key={val.id} item={val} showNutrition={false}>
-              <ProductUDAction
-                handleEdit={() => handleEdit(val.id)}
-                handleDelete={() => handleDelete(val.id)}
-              />
-            </Product>
-          ))}
+        <ContentLoader className="loader" loading={isContentLoading}>
+          {(!mealItems || mealItems.length === 0) && (
+            <h2 className="empty">No meal today?</h2>
+          )}
+          {mealItems &&
+            mealItems.map((val) => (
+              <Product key={val.id} item={val} showNutrition={false}>
+                <ProductUDAction
+                  handleEdit={() => handleEdit(val.id)}
+                  handleDelete={() => handleDelete(val.id)}
+                />
+              </Product>
+            ))}
+        </ContentLoader>
       </div>
       {isModalOpen && (
         <Modal setIsOpen={setIsModalOpen} header="How many grams?">

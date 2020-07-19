@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useConnect } from "@utils/redux-like";
 import { getSettings } from "@stores/settings/settingsAction";
@@ -16,6 +16,7 @@ import {
   Form,
   ErrorsInterface,
   LoaderRing,
+  ContentLoader,
   Alert,
 } from "@design";
 import StyledSettings from "./StyledSettings";
@@ -26,11 +27,15 @@ interface Errors extends ErrorsInterface {
 }
 
 const Settings: React.FC = () => {
+  const [isContentLoading, setIsContentLoading] = useState<boolean>(true);
   const history = useHistory();
   const [state, dispatch] = useConnect();
 
   useEffect(() => {
-    if (dispatch) dispatch(getSettings());
+    if (dispatch) {
+      setIsContentLoading(true);
+      dispatch(getSettings()).then(() => setIsContentLoading(false));
+    }
   }, [dispatch]);
 
   const errors: Errors = state?.user?.errors || {};
@@ -64,78 +69,80 @@ const Settings: React.FC = () => {
   return (
     <StyledSettings>
       <h1>Settings</h1>
-      <div className="form-container">
-        {errors.common && <Alert message={errors.common} />}
-        <div>
-          <Form onFinish={handleSubmit} errors={errors}>
-            <Select
-              ref={genderRef}
-              name="gender"
-              items={items?.gender?.map((val) => ({
-                name: val.name,
-                value: val.ratio,
-              }))}
-              value={userSettings.gender || ""}
-              placeholder="What gender you are"
-              required={true}
-            />
-            <Input
-              ref={ageRef}
-              type="number"
-              name="age"
-              value={userSettings.age || ""}
-              placeholder="How are you old"
-              required={true}
-            />
-            <Input
-              ref={heightRef}
-              type="number"
-              name="height"
-              value={userSettings.height || ""}
-              placeholder="Height"
-              required={true}
-            />
-            <Input
-              ref={weightRef}
-              type="number"
-              name="weight"
-              value={userSettings.weight || ""}
-              placeholder="Weight"
-              required={true}
-            />
-            <Select
-              ref={activityRef}
-              name="activity"
-              items={items?.activity?.map((val) => ({
-                name: val.name,
-                value: val.ratio,
-              }))}
-              value={userSettings.activity || ""}
-              placeholder="Your activity"
-              required={true}
-            />
-            <Select
-              ref={goalRef}
-              name="goal"
-              items={items?.goal?.map((val) => ({
-                name: val.name,
-                value: val.ratio,
-              }))}
-              value={userSettings.goal || ""}
-              placeholder="Your goal"
-              required={true}
-            />
-            <Button
-              name="submit"
-              className="settings-button"
-              disabled={inProgress}
-            >
-              {inProgress && <LoaderRing className="mr4" />}
-              Save settings
-            </Button>
-          </Form>
+      <ContentLoader className="loader" loading={isContentLoading}>
+        <div className="form-container">
+          {errors.common && <Alert message={errors.common} />}
+          <div>
+            <Form onFinish={handleSubmit} errors={errors}>
+              <Select
+                ref={genderRef}
+                name="gender"
+                items={items?.gender?.map((val) => ({
+                  name: val.name,
+                  value: val.ratio,
+                }))}
+                value={userSettings.gender || ""}
+                placeholder="What gender you are"
+                required={true}
+              />
+              <Input
+                ref={ageRef}
+                type="number"
+                name="age"
+                value={userSettings.age || ""}
+                placeholder="How are you old"
+                required={true}
+              />
+              <Input
+                ref={heightRef}
+                type="number"
+                name="height"
+                value={userSettings.height || ""}
+                placeholder="Height"
+                required={true}
+              />
+              <Input
+                ref={weightRef}
+                type="number"
+                name="weight"
+                value={userSettings.weight || ""}
+                placeholder="Weight"
+                required={true}
+              />
+              <Select
+                ref={activityRef}
+                name="activity"
+                items={items?.activity?.map((val) => ({
+                  name: val.name,
+                  value: val.ratio,
+                }))}
+                value={userSettings.activity || ""}
+                placeholder="Your activity"
+                required={true}
+              />
+              <Select
+                ref={goalRef}
+                name="goal"
+                items={items?.goal?.map((val) => ({
+                  name: val.name,
+                  value: val.ratio,
+                }))}
+                value={userSettings.goal || ""}
+                placeholder="Your goal"
+                required={true}
+              />
+              <Button
+                name="submit"
+                className="settings-button"
+                disabled={inProgress}
+              >
+                {inProgress && <LoaderRing className="mr4" />}
+                Save settings
+              </Button>
+            </Form>
+          </div>
         </div>
-      </div>
+      </ContentLoader>
       {/* <h2>Gender</h2>
       <div className="gender">
         <div className="item">
