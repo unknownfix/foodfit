@@ -10,3 +10,4 @@ Just pet project for my own needs. Not yet optimizazted for small smartphones ðŸ
 - Self-written Redux with helpers
 - Self-written lightweight design components
 - Hosted on Firebase (Database, Functions, Hosting)
+- Tests and Deploy via GitHub Actions
