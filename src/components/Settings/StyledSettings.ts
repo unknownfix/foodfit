@@ -8,6 +8,11 @@ const StyledSettings = styled.section`
     text-align: center;
   }
 
+  & .loader {
+    margin-top: 10rem;
+    text-align: center;
+  }
+
   & .form-container {
       max-width: 37rem;
       margin: 3rem auto 0;

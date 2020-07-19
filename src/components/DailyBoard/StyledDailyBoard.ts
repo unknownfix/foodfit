@@ -163,6 +163,10 @@ const StyledDailyBoard = styled.section<Props>`
           text-align: center;
           line-height: normal;
 
+          & .loader {
+            margin-top: 2rem;
+          }
+
           & span {
             display: block;
           }
@@ -183,11 +187,14 @@ const StyledDailyBoard = styled.section<Props>`
 
     .cal-table {
       margin-top: -7rem;
-      justify-self: center;
       display: grid;
       grid-auto-flow: column;
+      justify-content: center;
+      justify-self: stretch;
+      column-gap: 5rem;
 
       & .item {
+        width: 11rem;
         text-align: center;
 
         & span {
@@ -211,8 +218,12 @@ const StyledDailyBoard = styled.section<Props>`
         }
       }
 
-      & .item:not(:last-child) {
-        margin-right: 5rem;
+      & .loader {
+        & .lds-grid {
+          width: 4rem;
+          height: 4rem;
+          transform: scale(0.5) translateX(-50%);
+        }
       }
     }
   }
@@ -226,6 +237,10 @@ const StyledDailyBoard = styled.section<Props>`
     & .empty {
       text-align: center;
       margin-top: 3rem;
+    }
+
+    & .loader {
+      margin: 3rem auto 0;
     }
   }
 
