@@ -20,10 +20,6 @@ html {
   @media only screen and (max-width: ${(props) => props.theme.bpMedium}) {
     font-size: 50%; //1 rem = 8px
   }
-
-  @media only screen and (min-width: ${(props) => props.theme.bpHuge}) {
-    font-size: 75%; //1 rem = 12px
-  }
 }
 
 body {
@@ -53,5 +49,9 @@ h1 {
 h2 {
   font-size: 2.4rem;
   color: ${(props) => props.theme.colorPrimary};
+}
+
+#root {
+  overflow-y: hidden;
 }
 `;

@@ -1,6 +1,5 @@
 import React from "react";
 import ReactCalendar, { OnChangeDateCallback } from "react-calendar";
-import "react-calendar/dist/Calendar.css";
 import { useConnect } from "@utils/redux-like";
 import { setDate } from "@stores/meal/mealAction";
 import StyledCalendar from "./StyledCalendar";

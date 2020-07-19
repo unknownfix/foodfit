@@ -175,6 +175,7 @@ const StyledDailyBoard = styled.section<Props>`
           & .need {
             color: ${(props) => props.theme.colorTertiary};
             font-size: 3rem;
+            white-space: nowrap;
           }
         }
       }
