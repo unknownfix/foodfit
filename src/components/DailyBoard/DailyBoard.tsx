@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import moment from "moment";
 import { useConnect } from "@utils/redux-like";
 import { Button, Modal, Input, Form, LoaderRing } from "@design";
 import {
@@ -43,7 +44,7 @@ const DailyBoard: React.FC<Props> = ({ circle, calendarShown }) => {
 
   useEffect(() => {
     if (dispatch) {
-      const date = mealDate.toISOString().substring(0, 10);
+      const date = moment(mealDate).format("YYYY-MM-DD");
       dispatch(getMeals(date));
     }
   }, [dispatch, mealDate]);
