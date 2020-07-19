@@ -4,7 +4,6 @@ import { ActionInterface, Store, CreateStore } from "./types";
 const store: Store = (reducer: Reducer<any, ActionInterface>) => {
   let listeners: Function[] = [];
   let state: { [key: string]: any } = {};
-  state = reducer(state, { type: "init" });
 
   const getState = (name: string = undefined): any =>
     name ? state[name] : state;
