@@ -26,9 +26,8 @@ const checkStatus = (response: any) => {
     response.status === 401 ||
     response.data.code === "auth/id-token-expired"
   ) {
-    const { location } = window;
     localStorage.clear();
-    window.location = location;
+    window.location.pathname = "/login";
   }
 
   return response;
